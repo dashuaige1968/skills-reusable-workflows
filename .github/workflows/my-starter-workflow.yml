@@ -1,7 +1,7 @@
 name: My Starter Workflow
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # 或者 push 事件，取决于你之前的设置
 
 jobs:
   build:
@@ -14,3 +14,11 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy to your project.
+
+  call-reusable-workflow: # 这是需要修改的 Job
+    strategy: # 新增
+      matrix: # 新增
+        nodeversion: [14, 16, 18, 20] # 新增
+    uses: ./.github/workflows/reusable-workflow.yml
+    with:
+      node: ${{ matrix.nodeversion }} # 将 14 替换为 ${{ matrix.nodeversion }}
